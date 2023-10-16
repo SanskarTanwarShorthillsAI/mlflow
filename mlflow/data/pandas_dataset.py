@@ -28,7 +28,7 @@ class PandasDataset(Dataset, PyFuncConvertibleDatasetMixin):
         self,
         df: pd.DataFrame,
         source: DatasetSource,
-        targets: str = None,
+        targets: Optional[str] = None,
         name: Optional[str] = None,
         digest: Optional[str] = None,
     ):
@@ -169,6 +169,18 @@ def from_pandas(
     :param name: The name of the dataset. If unspecified, a name is generated.
     :param digest: The dataset digest (hash). If unspecified, a digest is computed
                    automatically.
+
+    .. testcode:: python
+        :caption: Example
+
+        import mlflow
+        import pandas as pd
+
+        x = pd.DataFrame(
+            [["tom", 10, 1], ["nick", 15, 0], ["juli", 14, 1]],
+            columns=["Name", "Age", "Label"],
+        )
+        dataset = mlflow.data.from_pandas(x, targets="Label")
     """
     from mlflow.data.code_dataset_source import CodeDatasetSource
     from mlflow.data.dataset_source_registry import resolve_dataset_source
